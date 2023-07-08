@@ -1,0 +1,143 @@
+/*
+create database farmacia;
+use farmacia;
+
+create table farmacia(
+id_farmacia int primary key auto_increment,
+nome_farmacia varchar(50),
+endereco varchar(50)
+);
+
+
+create table produto(
+	id_produto int primary key auto_increment,
+    nome_produto varchar(50) not null,
+    descricao_produto varchar(50),
+    validade_produto date,
+    lote_produto varchar(255),
+    quantidade int not null
+);
+
+create table cadastro(
+id_cadastro int primary key auto_increment,
+nome varchar(50),
+endereco varchar(255),
+telefone varchar(50),
+email varchar(255),
+data_nascimento date,
+sexo varchar(50),
+cpf varchar(50)
+);
+
+
+create table funcionario(
+id_funcionario int auto_increment primary key,
+funcao varchar(255),
+endereco varchar(255),
+nome varchar(255),
+cargo varchar(255),
+cpf varchar(50),
+sexo varchar(50)
+
+);
+alter table funcionario add id_farmacia int not null;
+alter table funcionario add constraint fk_farmacia foreign key(id_farmacia) references farmacia(id_farmacia);
+
+create table venda(
+id_venda int auto_increment primary key,
+id_produto int not null,
+id_funcionario int not null,
+data_venda date
+);
+
+alter table venda add constraint fk_produto foreign key(id_produto) references produto(id_produto);
+alter table venda add constraint fk_funcionario foreign key(id_funcionario) references funcionario(id_funcionario);
+
+create table cliente(
+id_cliente int auto_increment primary key,
+id_cadastro int not null,
+id_farmacia int not null,
+cpf varchar(50)
+);
+alter table cliente add constraint fk_cadastro foreign key(id_cadastro) references cadastro(id_cadastro);
+alter table cliente add constraint farmacia_fk foreign key(id_farmacia) references farmacia(id_farmacia);
+create table pagamento(
+id_pagamento int auto_increment primary key,
+id_cliente int not null
+);
+
+create table beneficio(
+id_beneficio int auto_increment primary key,
+concessor_beneficio varchar(50),
+tipo_beneficio varchar(255)
+);
+
+alter table venda add id_pagamento int not null;
+alter table venda add constraint fk_pagamento foreign key(id_pagamento) references pagamento(id_pagamento);
+
+
+alter table cliente add id_beneficio int not null;
+alter table cliente add constraint fk_beneficio foreign key(id_beneficio) references beneficio(id_beneficio);
+
+
+alter table pagamento add id_beneficio int not null;
+alter table pagamento add constraint beneficio_fk foreign key(id_beneficio) references beneficio(id_beneficio);
+
+create table estoque(
+id_fornecedor int auto_increment primary key,
+id_produto int not null,
+id_farmacia int not null,
+estoque_min int,
+estoque_max int
+);
+
+alter table estoque add constraint produto_fk foreign key(id_produto) references produto(id_produto);
+
+alter table estoque add constraint fk1_farmacia foreign key(id_farmacia) references farmacia(id_farmacia);
+
+
+create table fornecedor(
+id_fornecedor int auto_increment primary key,
+id_fabricante int not null,
+nome_fornecedor varchar(255),
+endereco varchar(255),
+telefone varchar(50),
+cnpj varchar(50)
+);
+
+create table fabricante(
+id_fabricante int auto_increment primary key,
+nome_fabricante varchar(255),
+cnpj_fabricante varchar(50),
+telefone_fabricante varchar(50),
+email_fabricante varchar(255)
+);
+
+
+alter table estoque add constraint fk_fornecedor foreign key(id_fornecedor) references fornecedor(id_fornecedor);
+
+alter table fornecedor add constraint fk_fabrincante foreign key(id_fabricante) references fabricante(id_fabricante);
+
+create table medicamento(
+id_medicamento int auto_increment primary key,
+nome_comercial varchar(50),
+id_fabricante int not null,
+id_principio_ativo int,
+concentracao varchar(255),
+classe varchar(50)
+);
+
+alter table medicamento add constraint fk_fabricante foreign key(id_fabricante) references fabricante(id_fabricante);
+
+create table principio_ativo(
+
+id_principio int not null,
+id_medicamento int not null,
+efeitos_colaterais_descricao varchar(255),
+atividade_acao varchar(255),
+descricao_restricao varchar(255),
+PRIMARY KEY(id_principio, id_medicamento),
+foreign key(id_medicamento) references medicamento(id_medicamento)
+
+);
+*/
